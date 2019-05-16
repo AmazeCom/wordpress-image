@@ -58,7 +58,7 @@ spec:
               key: WORDPRESS_REDIS_HOST_MASTER
               name: wordpressvariables
               optional: false
-        image: amazecom/hyperwordpress:latest
+        image: amazecom/hyperwordpress:${CICD_EXECUTION_SEQUENCE}
         imagePullPolicy: Always
         name: wordpress-application-servers
         ports:
