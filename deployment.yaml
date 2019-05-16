@@ -1,35 +1,116 @@
-ind: Service
-apiVersion: v1
-metadata:
-  name: wordpress-application-servers
-spec:
-  selector:
-    app: wordpress-application-servers
-  type: NodePort
-  ports:
-    - protocol: TCP
-      port: 80
----
-apiVersion: apps/v1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: deploy-wordpress-application-servers
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    field.cattle.io/creatorId: user-zcp7m
+    field.cattle.io/publicEndpoints: '[{"addresses":["203.98.82.28"],"port":30963,"protocol":"TCP","serviceName":"frontends:wordpress-application-servers-nodeport","allNodes":true},{"addresses":["203.98.82.100"],"port":80,"protocol":"HTTP","serviceName":"frontends:ingress-a7d10e6db43601c2e30f45fb82f1052a","ingressName":"frontends:ingress","hostname":"staging.bridgebc.edu.au","allNodes":true}]'
+  creationTimestamp: "2019-05-16T05:02:54Z"
+  generation: 4
   labels:
-    app: wordpress-application-servers
+    cattle.io/creator: norman
+    workload.user.cattle.io/workloadselector: deployment-frontends-wordpress-application-servers
+  name: wordpress-application-servers
+  namespace: frontends
+  resourceVersion: "14212494"
+  selfLink: /apis/apps/v1beta2/namespaces/frontends/deployments/wordpress-application-servers
+  uid: dce27d48-7797-11e9-893e-0242b37bcbd7
 spec:
-  replicas: 2
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: wordpress-application-servers
+      workload.user.cattle.io/workloadselector: deployment-frontends-wordpress-application-servers
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
   template:
     metadata:
+      annotations:
+        cattle.io/timestamp: "2019-05-16T05:29:50Z"
+        field.cattle.io/ports: '[[{"containerPort":80,"dnsName":"wordpress-application-servers-nodeport","kind":"NodePort","name":"80tcp01","protocol":"TCP","sourcePort":0}]]'
+      creationTimestamp: null
       labels:
-        app: helloserver
+        workload.user.cattle.io/workloadselector: deployment-frontends-wordpress-application-servers
     spec:
-      imagePullSecrets:
-      - name: pipeline-docker-registry
       containers:
-      - name: wordpress-application-servers
+      - env:
+        - name: WORDPRESS_DB_HOST_WRITER
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_DB_HOST_WRITER
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_DB_HOST_READER
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_DB_HOST_READER
+              name: wordpressvariables
+              optional: false
+        - name: HA_WORDPRESS_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_DB_NAME
+              name: wordpressvariables
+              optional: false
+        - name: HA_WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_DB_PASSWORD
+              name: wordpressvariables
+              optional: false
+        - name: HA_WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_DB_USER
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_REDIS_HOST_MASTER
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_REDIS_HOST_MASTER
+              name: wordpressvariables
+              optional: false
         image: amazecom/hyperwordpress:latest
+        imagePullPolicy: Always
+        name: wordpress-application-servers
         ports:
         - containerPort: 80
+          name: 80tcp01
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          procMount: Default
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+        volumeMounts:
+        - mountPath: /var/www/html/wp-content/plugins/
+          name: plugins
+          subPath: wordpress-plugins
+        - mountPath: /var/www/html/wp-content/themes/
+          name: themes
+          subPath: wordpress-themes
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: dockerhub
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: plugins
+        persistentVolumeClaim:
+          claimName: wordpressplugins
+      - name: themes
+        persistentVolumeClaim:
+          claimName: wordpressthemes
