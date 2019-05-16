@@ -209,9 +209,9 @@ $wpdb->check_tcp_responsiveness = true;
 // Master Writer Server Cluster
 $wpdb->add_database(array(
 	'host'     => $_ENV["WORDPRESS_DB_HOST_WRITER"],     // If port is other than 3306, use host:port.
-	'user'     => $_ENV["WORDPRESS_DB_USER"],
-	'password' => $_ENV["WORDPRESS_DB_PASSWORD"],
-	'name'     => $_ENV["WORDPRESS_DB_NAME"],
+	'user'     => $_ENV["HA_WORDPRESS_DB_USER"],
+	'password' => $_ENV["HA_WORDPRESS_DB_PASSWORD"],
+	'name'     => $_ENV["HA_WORDPRESS_DB_NAME"],
 	'write'    => 1,
 	'read'     => 0,
 	'dataset'  => 'global',
@@ -220,9 +220,9 @@ $wpdb->add_database(array(
 // Read Replica Cluster
 $wpdb->add_database(array(
 	'host'     => $_ENV["WORDPRESS_DB_HOST_READER"],     // If port is other than 3306, use host:port.
-	'user'     => $_ENV["WORDPRESS_DB_USER"],
-	'password' => $_ENV["WORDPRESS_DB_PASSWORD"],
-	'name'     => $_ENV["WORDPRESS_DB_NAME"],
+	'user'     => $_ENV["HA_WORDPRESS_DB_USER"],
+	'password' => $_ENV["HA_WORDPRESS_DB_PASSWORD"],
+	'name'     => $_ENV["HA_WORDPRESS_DB_NAME"],
 	'write'    => 0,
 	'read'     => 1,
 	'dataset'  => 'global',
