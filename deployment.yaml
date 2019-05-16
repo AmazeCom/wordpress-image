@@ -22,8 +22,8 @@ spec:
     spec:
       containers:
       - env:
-        - name: WORDPRESS_DEBUG:
-          value: 1
+        - name: WORDPRESS_DEBUG
+          value: "1"
         - name: WORDPRESS_AUTH_KEY
           valueFrom:
             secretKeyRef:
