@@ -22,6 +22,50 @@ spec:
     spec:
       containers:
       - env:
+        - name: WORDPRESS_DEBUG:
+          value: 1
+        - name: WORDPRESS_AUTH_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_AUTH_KEY
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_AUTH_SALT
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_AUTH_SALT
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_LOGGED_IN_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_LOGGED_IN_KEY
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_NONCE_SALT
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_NONCE_SALT
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_SECURE_AUTH_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_SECURE_AUTH_KEY
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_SECURE_AUTH_SALT
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_SECURE_AUTH_SALT
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_NONCE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_NONCE_KEY
+              name: wordpressvariables
+              optional: false
         - name: WORDPRESS_DB_HOST_WRITER
           valueFrom:
             secretKeyRef:
@@ -58,6 +102,29 @@ spec:
               key: WORDPRESS_REDIS_HOST_MASTER
               name: wordpressvariables
               optional: false
+        - name: WORDPRESS_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_DB_NAME
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_DB_PASSWORD
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_DB_USER
+              name: wordpressvariables
+              optional: false
+        - name: WORDPRESS_DB_HOST
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_DB_HOST_WRITER
+              name: wordpressvariables
         image: amazecom/hyperwordpress:${CICD_EXECUTION_SEQUENCE}
         imagePullPolicy: Always
         name: wordpress-application-servers
