@@ -42,6 +42,12 @@ spec:
               key: WORDPRESS_LOGGED_IN_KEY
               name: wordpressvariables
               optional: false
+        - name: WORDPRESS_LOGGED_IN_SALT
+          valueFrom:
+            secretKeyRef:
+              key: WORDPRESS_LOGGED_IN_SALT
+              name: wordpressvariables
+              optional: false
         - name: WORDPRESS_NONCE_SALT
           valueFrom:
             secretKeyRef:
