@@ -1,4 +1,4 @@
-FROM wordpress:5.2.0-php7.3-apache
+FROM wordpress:5.2.1-php7.3-apache
 
 ##
 # Inject local copy of db-config.php and db.php
@@ -10,8 +10,3 @@ FROM wordpress:5.2.0-php7.3-apache
 RUN pecl install -o -f redis \
 &&  rm -rf /tmp/pear \
 &&  docker-php-ext-enable redis
-
-###
-# CHMOD and CHOWN ownership on the /usr/src/wordpress/wp-content directory
-# To ensure when images are deploying the ownership is consistent across the cluster
-RUN chown -R www-data:www-data /usr/src/wordpress/wp-content
