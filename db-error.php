@@ -30,7 +30,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
     <title><?php _e( 'Database Error' ); ?></title>
 </head>
 <body>
-<h1><?php _e( 'Error establishing a database connection' ); ?></h1>
+<h1><?php _e( 'Error establishing a database connection to cluster' ); ?></h1>
 </body>
 </html><?php
 
