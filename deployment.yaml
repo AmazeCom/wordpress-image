@@ -155,6 +155,9 @@ spec:
         - mountPath: /var/www/html/wp-content/themes/
           name: themes
           subPath: wordpress-themes
+        - mountPath: /var/www/html/wp-content/cache/
+          name: cache
+          subPath: wordpress-cache
       dnsPolicy: ClusterFirst
       imagePullSecrets:
       - name: dockerhub
@@ -169,3 +172,6 @@ spec:
       - name: themes
         persistentVolumeClaim:
           claimName: wordpressthemes
+      - name: cache
+        persistentVolumeClaim:
+          claimName: wordpresscache
