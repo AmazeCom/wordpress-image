@@ -3,7 +3,7 @@ stages:
   steps:
   - publishImageConfig:
       dockerfilePath: ./nginx/Dockerfile
-      buildContext: .
+      buildContext: ./nginx/
       tag: amazecom/nginxpress:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
@@ -11,7 +11,7 @@ stages:
   steps:
   - publishImageConfig:
       dockerfilePath: ./wordpress/Dockerfile
-      buildContext: .
+      buildContext: ./nginx/
       tag: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
