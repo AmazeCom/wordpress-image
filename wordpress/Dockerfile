@@ -1,4 +1,5 @@
-FROM wordpress:5.2.1-php7.3-apache
+FROM wordpress:php7.3-fpm-alpine
+RUN apk add --no-cache $PHPIZE_DEPS
 
 ##
 # Inject local copy of db-config.php and db.php

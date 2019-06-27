@@ -21,6 +21,22 @@ spec:
         workload.user.cattle.io/workloadselector: deployment-frontends-wordpress-application-servers
     spec:
       containers:
+      - name: nginx-frontend
+        image: amazecom/nginxpress:${CICD_EXECUTION_SEQUENCE}
+        imagePullPolicy: Always
+        name: nginx-ingress-frontend
+        ports:
+        - containerPort: 80
+          name: 80tcp01
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          procMount: Default
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
       - env:
         - name: WORDPRESS_AUTH_KEY
           valueFrom:
@@ -153,12 +169,12 @@ spec:
               key: WORDPRESS_DB_USER
               name: wordpressvariables
               optional: false
-        image: amazecom/hyperwordpress:${CICD_EXECUTION_SEQUENCE}
+        image: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
         imagePullPolicy: Always
-        name: wordpress-application-servers
+        name: wordpress-application-server
         ports:
-        - containerPort: 80
-          name: 80tcp01
+        - containerPort: 9000
+          name: 9000tcp01
           protocol: TCP
         resources: {}
         securityContext:
