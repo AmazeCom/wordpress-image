@@ -11,7 +11,7 @@ stages:
   steps:
   - publishImageConfig:
       dockerfilePath: ./wordpress/Dockerfile
-      buildContext: ./nginx/
+      buildContext: ./wordpress/
       tag: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
