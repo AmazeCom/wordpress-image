@@ -7,6 +7,8 @@ stages:
       tag: amazecom/nginxpress:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
+    env:
+      PLUGIN_STORAGE_PATH: /var/lib/docker1
 - name: Build Wordpress Application Container
   steps:
   - publishImageConfig:
@@ -15,6 +17,8 @@ stages:
       tag: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
       pushRemote: false
       registry: index.docker.io
+    env:
+      PLUGIN_STORAGE_PATH: /var/lib/docker2
 - name: Deploy
   steps:
   - applyYamlConfig:
