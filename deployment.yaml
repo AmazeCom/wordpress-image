@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: wordpress-application-servers
+  name: wordpress-nginx-ingress-frontend
   namespace: frontends
 spec:
   progressDeadlineSeconds: 600
@@ -24,7 +24,7 @@ spec:
       - name: nginx-frontend
         image: amazecom/nginxpress:${CICD_EXECUTION_SEQUENCE}
         imagePullPolicy: Always
-        name: nginx-ingress-frontend
+        name: wordpress-nginx-ingress-frontend
         ports:
         - containerPort: 80
           name: 80tcp01
