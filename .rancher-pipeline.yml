@@ -2,12 +2,6 @@ stages:
 - name: Build Nginx Application Frontend
   steps:
   - publishImageConfig:
-      dockerfilePath: ./nginx/Dockerfile
-      buildContext: ./nginx/
-      tag: amazecom/nginxpress:${CICD_EXECUTION_SEQUENCE}
-      pushRemote: true
-      registry: index.docker.io
-  - publishImageConfig:
       dockerfilePath: ./wordpress/Dockerfile
       buildContext: ./wordpress/
       tag: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
