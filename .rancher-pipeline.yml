@@ -13,7 +13,7 @@ stages:
       dockerfilePath: ./wordpress/Dockerfile
       buildContext: ./wordpress/
       tag: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
-      pushRemote: true
+      pushRemote: false
       registry: index.docker.io
 - name: Deploy
   steps:
