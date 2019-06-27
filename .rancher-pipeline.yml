@@ -7,16 +7,10 @@ stages:
       tag: amazecom/nginxpress:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
-- name: Build Wordpress Application Container
-  steps:
   - publishImageConfig:
       dockerfilePath: ./wordpress/Dockerfile
       buildContext: ./wordpress/
       tag: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
-      pushRemote: false
+      pushRemote: true
       registry: index.docker.io
-- name: Deploy
-  steps:
-  - applyYamlConfig:
-      path: ./deployment.yaml
 timeout: 60
