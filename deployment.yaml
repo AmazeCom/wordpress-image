@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: nginx-frontend
-        image: amazecom/nginxpress:${CICD_EXECUTION_SEQUENCE}
+        image: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
         imagePullPolicy: Always
         name: wordpress-nginx-ingress-frontend
         ports:
@@ -174,8 +174,6 @@ spec:
         name: wordpress-application-server
         ports:
         - containerPort: 9000
-          name: 9000tcp01
-          protocol: TCP
         resources: {}
         securityContext:
           allowPrivilegeEscalation: false
