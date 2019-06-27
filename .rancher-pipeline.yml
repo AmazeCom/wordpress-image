@@ -15,7 +15,7 @@ stages:
       dockerfilePath: ./wordpress/Dockerfile
       buildContext: ./wordpress/
       tag: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
-      pushRemote: false
+      pushRemote: true
       registry: index.docker.io
     env:
       PLUGIN_STORAGE_PATH: /var/lib/docker2
