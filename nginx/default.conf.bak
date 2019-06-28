@@ -1,0 +1,61 @@
+server {
+  listen 80;
+  root /var/www/html;
+
+  index index.php;
+
+  location / {
+    try_files $uri $uri/ /index.php?$args;
+  }
+
+  rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+
+  # deny access to .htaccess files, if Apache's document root
+  # concurs with nginx's one
+  location ~ /\.ht {
+      deny  all;
+  }
+
+  #Block PHP files in the includes directory
+  location ~* /wp-includes/.*.php$ {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+
+  #Block PHP files in the content directory
+  location ~* /wp-content/.*.php$ {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+
+  #Block PHP files in the uploads directory
+  location ~* /(?:uploads|files)/.*.php$ {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+
+  # Block XMLRPC from being used
+  location = /xmlrpc.php {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+
+  location ~ [^/]\.php(/|$) {
+    fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+    if (!-f $document_root$fastcgi_script_name) {
+      return 404;
+    }
+
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param PATH_INFO       $fastcgi_path_info;
+    fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+
+    fastcgi_pass   upstream-apps.frontends:9000;
+    fastcgi_index  index.php;
+  }
+}
