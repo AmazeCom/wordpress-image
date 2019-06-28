@@ -174,7 +174,7 @@ spec:
         name: wordpress-application-server
         ports:
         - containerPort: 9000
-          name: application-port
+          name: fpmport
           protocol: TCP
         resources: {}
         securityContext:
