@@ -173,9 +173,8 @@ spec:
         terminationMessagePolicy: File
         tty: true
         volumeMounts:
-        - mountPath: /var/www/html/wp-content/
-          name: content
-          subPath: wordpress-content
+        - mountPath: /var/www/html/
+          name: wordpress
       dnsPolicy: ClusterFirst
       imagePullSecrets:
       - name: dockerhub
@@ -184,6 +183,6 @@ spec:
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-      - name: content
+      - name: wordpress
         persistentVolumeClaim:
-          claimName: wordpress-content
+          claimName: wordpress
