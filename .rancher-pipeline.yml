@@ -19,8 +19,12 @@ stages:
       registry: index.docker.io
     env:
       PLUGIN_STORAGE_PATH: /var/lib/docker2
-- name: Deploy
+- name: Deploy Backends
   steps:
   - applyYamlConfig:
-      path: ./deployment.yaml
+      path: ./app-farm-deploy.yaml
+- name: Deploy Frontends
+  steps:
+  - applyYamlConfig:
+      path: ./nginx-ingress-deploy.yml
 timeout: 60

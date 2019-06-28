@@ -1,0 +1,39 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: wordpress-application-servers
+  namespace: frontends
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-frontends-nginx-ingress
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+     labels:
+        workload.user.cattle.io/workloadselector: deployment-frontends-nginx-ingress
+    spec:
+      containers:
+      - name: nginx-ingress
+        image: amazecom/nginxpress:${CICD_EXECUTION_SEQUENCE}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: 80tcp01
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          procMount: Default
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+

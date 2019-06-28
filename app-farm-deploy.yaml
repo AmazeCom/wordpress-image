@@ -1,15 +1,15 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: wordpress-nginx-ingress-frontend
-  namespace: frontends
+  name: wordpress-application-servers
+  namespace: backends
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-frontends-wordpress-application-servers
+      workload.user.cattle.io/workloadselector: deployment-backends-wordpress-app-servers
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -18,25 +18,9 @@ spec:
   template:
     metadata:
      labels:
-        workload.user.cattle.io/workloadselector: deployment-frontends-wordpress-application-servers
+        workload.user.cattle.io/workloadselector: deployment-backends-wordpress-app-servers
     spec:
       containers:
-      - name: nginx-frontend
-        image: amazecom/nginxpress:${CICD_EXECUTION_SEQUENCE}
-        imagePullPolicy: Always
-        name: wordpress-nginx-ingress-frontend
-        ports:
-        - containerPort: 80
-          name: 80tcp01
-          protocol: TCP
-        resources: {}
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities: {}
-          privileged: false
-          procMount: Default
-          readOnlyRootFilesystem: false
-          runAsNonRoot: false
       - env:
         - name: WORDPRESS_AUTH_KEY
           valueFrom:
@@ -171,7 +155,7 @@ spec:
               optional: false
         image: amazecom/bridgepress:${CICD_EXECUTION_SEQUENCE}
         imagePullPolicy: Always
-        name: wordpress-application-server
+        name: wordpress-application-servers
         ports:
         - containerPort: 9000
           name: fpmport
