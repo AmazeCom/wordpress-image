@@ -173,7 +173,7 @@ spec:
         terminationMessagePolicy: File
         tty: true
         volumeMounts:
-        - mountPath: /var/www/html/
+        - mountPath: /var/www/html
           name: wordpress
       dnsPolicy: ClusterFirst
       imagePullSecrets:
